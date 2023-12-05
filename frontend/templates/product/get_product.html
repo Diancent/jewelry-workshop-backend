@@ -1,0 +1,42 @@
+<!-- frontend/templates/products/get_products.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Products Detail</h2>
+
+    <form id="getProductForm">
+        <label for="productId">Product ID:</label>
+        <input type="text" id="productId" name="productId" required>
+        <button type="submit">Get Product Detail</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('getProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const productId = document.getElementById('productId').value;
+            const response = await fetch(`/products/${productId}`);
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Product Detail:</h3>';
+            if (data.product_id) {
+                resultDiv.innerHTML += `
+                    <p>Product ID: ${data.product_id}</p>
+                    <p>Name: ${data.name}</p>
+                    <p>Description: ${data.description}</p>
+                    <p>Price: ${data.price}</p>
+                    <p>Material: ${data.material}</p>
+                `;
+            } else {
+                resultDiv.innerHTML += '<p>Product not found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

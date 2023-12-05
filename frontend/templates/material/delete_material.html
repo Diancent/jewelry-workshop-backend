@@ -1,0 +1,42 @@
+<!-- frontend/templates/material/delete_material.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Delete Material</h2>
+
+        <form id="deleteMaterialForm" style="display: inline-block; text-align: left;">
+            <label for="materialId">Material ID:</label>
+            <input type="text" id="materialId" name="materialId" required style="width: 100%;"><br>
+
+            <button type="submit">Delete Material</button>
+        </form>
+    </div>
+
+    <div id="result" style="text-align: center; margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('deleteMaterialForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const materialId = formData.get('materialId');
+            const response = await fetch(`/materials/${materialId}/delete`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.message) {
+                resultDiv.innerHTML += `<p>${data.message}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to delete material.</p>';
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Materials</h2>
+
+    <!-- Кнопки для взаємодії з ендпойнтами -->
+    <button onclick="getAllMaterials()">Get All Materials</button>
+    <a href="{% url 'createMaterialPage' %}"><button>Create Material</button></a>
+    <a href="{% url 'getMaterialPage' %}"><button>Get Material</button></a>
+    <a href="{% url 'putMaterialPage' %}"><button>Put Material</button></a>
+    <a href="{% url 'deleteMaterialPage' %}"><button>Delete Material</button></a>
+
+    <!-- Виведення результатів запитів -->
+    <div id="result"></div>
+
+    <script>
+        async function getAllMaterials() {
+            const response = await fetch('/materials');
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.materials && data.materials.length > 0) {
+                const materialsList = document.createElement('ull');
+                data.materials.forEach(material => {
+                    const materialItem = document.createElement('li');
+                    materialItem.textContent = `ID: ${material.material_id}, Name: ${material.name}, Description: ${material.description}`;
+                    materialList.appendChild(materialItem);
+                });
+                resultDiv.appendChild(materialsList);
+            } else {
+                resultDiv.innerHTML += '<p>No materials found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

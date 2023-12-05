@@ -1,0 +1,45 @@
+<!-- frontend/templates/artisan/get_artisan.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Artisan Detail</h2>
+
+    <form id="getArtisanForm">
+        <label for="artisanId">Artisan ID:</label>
+        <input type="text" id="artisanId" name="artisanId" required>
+        <button type="submit">Get Artisan Detail</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('getArtisanForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const artisanId = document.getElementById('artisanId').value;
+            const response = await fetch(`/artisans/${artisanId}`);
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Artisan Detail:</h3>';
+            if (data.artisan_id) {
+                resultDiv.innerHTML += `
+                    <p>Artisan ID: ${data.artisan_id}</p>
+                    <p>Surname: ${data.surname}</p>
+                    <p>Name: ${data.name}</p>
+                    <p>Address: ${data.address}</p>
+                    <p>Phone Number: ${data.phone_number}</p>
+                    <p>Email: ${data.email}</p>
+                    <p>Specialization: ${data.specialization}</p>
+                    <p>Salary: ${data.salary}</p>
+                `;
+            } else {
+                resultDiv.innerHTML += '<p>Artisan not found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

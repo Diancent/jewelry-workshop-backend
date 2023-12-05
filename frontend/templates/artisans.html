@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Artisans</h2>
+
+    <!-- Кнопки для взаємодії з ендпойнтами -->
+    <button onclick="getAllArtisans()">Get All Artisan</button>
+    <a href="{% url 'createArtisanPage' %}"><button>Create Artisan</button></a>
+    <a href="{% url 'getArtisanPage' %}"><button>Get Artisan</button></a>
+    <a href="{% url 'putArtisanPage' %}"><button>Put Artisan</button></a>
+    <a href="{% url 'deleteArtisanPage' %}"><button>Delete Artisan</button></a>
+
+    <!-- Виведення результатів запитів -->
+    <div id="result"></div>
+
+    <script>
+        async function getAllArtisans() {
+            const response = await fetch('/artisans');
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.artisans && data.artisans.length > 0) {
+                const artisansList = document.createElement('ull');
+                data.artisans.forEach(artisan => {
+                    const artisanItem = document.createElement('li');
+                    artisanItem.textContent = `ID: ${artisan.artisan_id}, Name: ${artisan.name}, Surname: ${artisan.surname}, Address: ${artisan.address}, Phone number: ${artisan.phone_number} Email: ${artisan.email} Specialization: ${artisan.specialization} Salary: ${artisan.salary}`;
+                    artisanList.appendChild(artisanItem);
+                });
+                resultDiv.appendChild(artisansList);
+            } else {
+                resultDiv.innerHTML += '<p>No artisans found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

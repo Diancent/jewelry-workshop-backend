@@ -1,0 +1,48 @@
+<!-- frontend/templates/material/create_material.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Create Material</h2>
+
+    <form id="createMaterialForm" style="max-width: 400px; margin: 0 auto;">
+
+        <div style="margin-bottom: 10px;">
+            <label for="name" style="display: inline-block; width: 100px;">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="description" style="display: inline-block; width: 100px;">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <button type="submit">Create Customer</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('createMaterialForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/materials/create', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.material_id) {
+                resultDiv.innerHTML += `<p>Material created with ID: ${data.material_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to create material.</p>';
+            }
+        }
+    </script>
+{% endblock %}

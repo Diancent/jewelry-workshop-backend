@@ -1,0 +1,55 @@
+<!-- frontend/templates/product/update_product.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Update Product</h2>
+
+        <form id="updateProductForm" style="display: inline-block; text-align: left;">
+            <label for="productId">Product ID:</label>
+            <input type="text" id="productId" name="productId" required style="width: 100%;"><br>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required style="width: 100%;"><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required style="width: 100%;"></textarea><br>
+
+            <label for="price">Price:</label>
+            <textarea id="price" name="price" required style="width: 100%;"></textarea><br>
+
+            <label for="material">Material:</label>
+            <textarea id="material" name="material" required style="width: 100%;"></textarea><br>
+
+            <button type="submit">Update Product</button>
+        </form>
+    </div>
+
+    <div id="result" style="text-align: center; margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('updateProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const materialId = formData.get('productId');
+            const response = await fetch(`/products/${productId}/update`, {
+                method: 'PUT',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.product_id) {
+                resultDiv.innerHTML += `<p>Product updated with ID: ${data.product_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to update product.</p>';
+            }
+        }
+    </script>
+{% endblock %}

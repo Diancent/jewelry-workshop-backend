@@ -1,0 +1,40 @@
+<!-- frontend/templates/material/get_material.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Material Detail</h2>
+
+    <form id="getMaterialForm">
+        <label for="materialId">Material ID:</label>
+        <input type="text" id="materialId" name="materialId" required>
+        <button type="submit">Get Material Detail</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('getMaterialForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const materialId = document.getElementById('materialId').value;
+            const response = await fetch(`/materials/${materialId}`);
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Material Detail:</h3>';
+            if (data.material_id) {
+                resultDiv.innerHTML += `
+                    <p>Material ID: ${data.material_id}</p>
+                    <p>Name: ${data.name}</p>
+                    <p>Description: ${data.description}</p>
+                `;
+            } else {
+                resultDiv.innerHTML += '<p>Material not found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

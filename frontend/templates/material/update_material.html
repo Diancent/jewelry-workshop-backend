@@ -1,0 +1,49 @@
+<!-- frontend/templates/material/update_material.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Update Material</h2>
+
+        <form id="updateMaterialForm" style="display: inline-block; text-align: left;">
+            <label for="materialId">Customer ID:</label>
+            <input type="text" id="materialId" name="materialId" required style="width: 100%;"><br>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required style="width: 100%;"><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required style="width: 100%;"></textarea><br>
+
+            <button type="submit">Update Customer</button>
+        </form>
+    </div>
+
+    <div id="result" style="text-align: center; margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('updateMaterialForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const materialId = formData.get('materialId');
+            const response = await fetch(`/materials/${materialId}/update`, {
+                method: 'PUT',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.material_id) {
+                resultDiv.innerHTML += `<p>Material updated with ID: ${data.material_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to update material.</p>';
+            }
+        }
+    </script>
+{% endblock %}

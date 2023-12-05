@@ -1,0 +1,58 @@
+<!-- frontend/templates/product/create_product.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Create Product</h2>
+
+    <form id="createProductForm" style="max-width: 400px; margin: 0 auto;">
+
+        <div style="margin-bottom: 10px;">
+            <label for="name" style="display: inline-block; width: 100px;">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="price" style="display: inline-block; width: 100px;">Price:</label>
+            <textarea id="price" name="price" required></textarea>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="description" style="display: inline-block; width: 100px;">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="material" style="display: inline-block; width: 100px;">Material:</label>
+            <textarea id="material" name="material" required></textarea>
+        </div>
+
+        <button type="submit">Create Customer</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('createProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/products/create', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.product_id) {
+                resultDiv.innerHTML += `<p>Product created with ID: ${data.product_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to create product.</p>';
+            }
+        }
+    </script>
+{% endblock %}
