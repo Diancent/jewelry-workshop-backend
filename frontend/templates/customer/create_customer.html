@@ -1,0 +1,62 @@
+<!-- frontend/templates/customer/create_customer.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Create Customer</h2>
+
+    <form id="createCustomerForm" style="max-width: 400px; margin: 0 auto;">
+        <div style="margin-bottom: 10px;">
+            <label for="surname" style="display: inline-block; width: 100px;">Surname:</label>
+            <input type="text" id="surname" name="surname" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="name" style="display: inline-block; width: 100px;">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="address" style="display: inline-block; width: 100px;">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="phone_number" style="display: inline-block; width: 100px;">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="email" style="display: inline-block; width: 100px;">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <button type="submit">Create Customer</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('createCustomerForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/customers/create', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.customer_id) {
+                resultDiv.innerHTML += `<p>Customer created with ID: ${data.customer_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to create customer.</p>';
+            }
+        }
+    </script>
+{% endblock %}

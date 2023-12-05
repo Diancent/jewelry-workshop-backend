@@ -1,0 +1,58 @@
+<!-- frontend/templates/customer/update_customer.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Update Customer</h2>
+
+        <form id="updateCustomerForm" style="display: inline-block; text-align: left;">
+            <label for="customerId">Customer ID:</label>
+            <input type="text" id="customerId" name="customerId" required style="width: 100%;"><br>
+
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" required style="width: 100%;"><br>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required style="width: 100%;"><br>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required style="width: 100%;"></textarea><br>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" required style="width: 100%;"><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required style="width: 100%;"><br>
+
+            <button type="submit">Update Customer</button>
+        </form>
+    </div>
+
+    <div id="result" style="text-align: center; margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('updateCustomerForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const customerId = formData.get('customerId');
+            const response = await fetch(`/customers/${customerId}/update`, {
+                method: 'PUT',
+                body: formData
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.customer_id) {
+                resultDiv.innerHTML += `<p>Customer updated with ID: ${data.customer_id}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to update customer.</p>';
+            }
+        }
+    </script>
+{% endblock %}

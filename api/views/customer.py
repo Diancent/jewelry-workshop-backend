@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from base.models import Customer
-from .serializers import CustomerSerializer
+from ..serializers import CustomerSerializer
 from drf_yasg.utils import swagger_auto_schema
 
-# Customer
+
 @api_view(['GET'])
 def customers(request):
     customers = Customer.objects.all()

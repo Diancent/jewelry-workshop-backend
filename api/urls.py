@@ -2,24 +2,39 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Customers
-    path('customers', views.customers, name='getAllCustomers'),
-    path('customers/create', views.createCustomer, name='createCustomer'),
-    path('customers/<uuid:customer_id>', views.customerDetail, name='getCustomer'),
-    path('customers/<uuid:customer_id>/update/', views.updateCustomer, name='updateCustomer'),
-    path('customers/<uuid:customer_id>/delete', views.deleteCustomer, name='deleteCustomer'),
 
-    # # Orders
-    # path('orders', views.getAllOrders, name='get_all_orders'),
-    # path('orders/<int:order_id>', views.getOrder, name='get_order'),
-    # path('orders', views.createOrder, name='create_order'),
-    # path('orders/<int:order_id>', views.updateOrder, name='update_order'),
-    # path('orders/<int:order_id>', views.deleteOrder, name='delete_order'),
-    #
-    # # Products
-    # path('products', views.getAllProducts, name='get_all_products'),
-    # path('products/<uuid:product_id>', views.getProduct, name='get_product'),
-    # path('products', views.createProduct, name='create_product'),
-    # path('products/<uuid:product_id>', views.updateProduct, name='update_product'),
-    # path('products/<uuid:product_id>', views.deleteProduct, name='delete_product'),
+    # Customers
+    path('customers', views.customer.customers, name='getAllCustomers'),
+    path('customers/create', views.customer.createCustomer, name='createCustomer'),
+    path('customers/<uuid:customer_id>', views.customer.customerDetail, name='getCustomer'),
+    path('customers/<uuid:customer_id>/update', views.customer.updateCustomer, name='updateCustomer'),
+    path('customers/<uuid:customer_id>/delete', views.customer.deleteCustomer, name='deleteCustomer'),
+
+    # Orders
+    path('orders', views.order.orders, name='get_all_orders'),
+    path('orders/create', views.order.createOrder, name='create_order'),
+    path('orders/<uuid:order_id>', views.order.orderDetail, name='get_order'),
+    path('orders/<uuid:order_id>/update', views.order.updateOrder, name='update_order'),
+    path('orders/<uuid:order_id>/delete', views.order.deleteOrder, name='delete_order'),
+
+    # Products
+    path('products', views.product.products, name='getAllProducts'),
+    path('products/create', views.product.createProduct, name='createProduct'),
+    path('products/<uuid:product_id>', views.product.productDetail, name='getProduct'),
+    path('products/<uuid:product_id>/update', views.product.updateProduct, name='updateProduct'),
+    path('products/<uuid:product_id>/delete', views.product.deleteProduct, name='deleteProduct'),
+
+    # Artisans
+    path('artisans', views.artisan.artisans, name='getAllArtisans'),
+    path('artisans/create', views.artisan.createArtisan, name='createArtisan'),
+    path('artisans/<uuid:artisan_id>', views.artisan.artisanDetail, name='getArtisan'),
+    path('artisans/<uuid:artisan_id>/update', views.artisan.updateArtisan, name='updateArtisan'),
+    path('artisans/<uuid:artisan_id>/delete', views.artisan.deleteArtisan, name='deleteArtisan'),
+
+    # Materials
+    path('materials', views.material.materials, name='getAllMaterials'),
+    path('materials/create', views.material.createMaterial, name='createMaterial'),
+    path('materials/<uuid:material_id>', views.material.materialDetail, name='getMaterial'),
+    path('materials/<uuid:material_id>/update', views.material.updateMaterial, name='updateMaterial'),
+    path('materials/<uuid:material_id>/delete', views.material.deleteMaterial, name='deleteMaterial'),
 ]

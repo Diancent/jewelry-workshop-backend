@@ -1,0 +1,42 @@
+<!-- frontend/templates/customer/delete_customer.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Delete Customer</h2>
+
+        <form id="deleteCustomerForm" style="display: inline-block; text-align: left;">
+            <label for="customerId">Customer ID:</label>
+            <input type="text" id="customerId" name="customerId" required style="width: 100%;"><br>
+
+            <button type="submit">Delete Customer</button>
+        </form>
+    </div>
+
+    <div id="result" style="text-align: center; margin-top: 20px;"></div>
+
+    <script>
+        document.getElementById('deleteCustomerForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const customerId = formData.get('customerId');
+            const response = await fetch(`/customers/${customerId}/delete`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            displayResult(data);
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.message) {
+                resultDiv.innerHTML += `<p>${data.message}</p>`;
+            } else {
+                resultDiv.innerHTML += '<p>Failed to delete customer.</p>';
+            }
+        }
+    </script>
+{% endblock %}

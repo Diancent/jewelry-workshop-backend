@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Customers</h2>
+
+    <!-- Кнопки для взаємодії з ендпойнтами -->
+    <button onclick="getAllCustomers()">Get All Customers</button>
+    <a href="{% url 'createCustomerPage' %}"><button>Create Customer</button></a>
+    <a href="{% url 'getCustomerPage' %}"><button>Get Customer</button></a>
+    <a href="{% url 'putCustomerPage' %}"><button>Put Customer</button></a>
+    <a href="{% url 'deleteCustomerPage' %}"><button>Delete Customer</button></a>
+
+    <!-- Виведення результатів запитів -->
+    <div id="result"></div>
+
+    <script>
+        async function getAllCustomers() {
+            const response = await fetch('/customers');
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3>Result:</h3>';
+            if (data.customers && data.customers.length > 0) {
+                const customersList = document.createElement('ull');
+                data.customers.forEach(customer => {
+                    const customerItem = document.createElement('li');
+                    customerItem.textContent = `ID: ${customer.customer_id}, Name: ${customer.name}, Surname: ${customer.surname}, Address: ${customer.address}, Phone number: ${customer.phone_number} Email: ${customer.email}`;
+                    customersList.appendChild(customerItem);
+                });
+                resultDiv.appendChild(customersList);
+            } else {
+                resultDiv.innerHTML += '<p>No customers found.</p>';
+            }
+        }
+    </script>
+{% endblock %}

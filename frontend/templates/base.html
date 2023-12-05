@@ -1,0 +1,30 @@
+<!-- frontend/templates/base.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry Workshop</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Jewelry Workshop</h1>
+    </header>
+    <ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="{% url 'customers' %}">Customers</a></li>
+        <li><a href="{% url 'artisans' %}">Artisans</a></li>
+        <li><a href="{% url 'materials' %}">Materials</a></li>
+        <li><a href="{% url 'products' %}">Products</a></li>
+    </ul>
+
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
