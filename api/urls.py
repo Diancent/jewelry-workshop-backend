@@ -11,11 +11,11 @@ urlpatterns = [
     path('customers/<uuid:customer_id>/delete', views.customer.deleteCustomer, name='deleteCustomer'),
 
     # Orders
-    path('orders', views.order.orders, name='get_all_orders'),
-    path('orders/create', views.order.createOrder, name='create_order'),
-    path('orders/<uuid:order_id>', views.order.orderDetail, name='get_order'),
-    path('orders/<uuid:order_id>/update', views.order.updateOrder, name='update_order'),
-    path('orders/<uuid:order_id>/delete', views.order.deleteOrder, name='delete_order'),
+    path('orders', views.order.orders, name='getAllOrders'),
+    path('orders/create', views.order.createOrder, name='createOrder'),
+    path('orders/<uuid:order_id>', views.order.orderDetail, name='getOrder'),
+    path('orders/<uuid:order_id>/update', views.order.updateOrder, name='updateOrder'),
+    path('orders/<uuid:order_id>/delete', views.order.deleteOrder, name='deleteOrder'),
 
     # Products
     path('products', views.product.products, name='getAllProducts'),
